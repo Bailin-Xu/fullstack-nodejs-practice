@@ -1,0 +1,14 @@
+### 获取所有笔记
+GET http://localhost:3001/api/notes
+
+### 删除笔记
+DELETE http://localhost:3001/api/notes/2
+
+### 创建新笔记
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+  "content": "VS Code REST Client is good in testing backend",
+  "important": true
+}
