@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "node --watch index.js",
+    "build:ui": "rm -rf dist && cd ../part1 && npm ci && npm run build && cp -r dist ../backend",
+    "deploy:full": "npm run build:ui && git add -A && git commit -m \"ui build\" || echo \"no changes\" && git push",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // 后端 API 的基础地址
-const baseUrl = 'http://localhost:3001/api/notes'
+const baseUrl = '/api/notes'
 
 // 获取所有笔记
 // axios.get 返回一个 Promise<AxiosResponse>

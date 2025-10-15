@@ -1,0 +1,21 @@
+/* === 通知（成功） === */
+.notification {
+    color: green;
+    background: #f0f0f0;
+    font-size: 16px;
+    border: 1px solid green;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 12px;
+}
+
+/* === 错误提示（失败） === */
+.error {
+    color: red;
+    background: #f0f0f0;
+    font-size: 16px;
+    border: 1px solid red;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 12px;
+}
