@@ -1,5 +1,4 @@
-require('dotenv').config()
-
+const mongoose = require('mongoose')
 const express = require('express')
 const morgan = require('morgan')
 
@@ -13,19 +12,30 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :b
 
 app.use(express.static('dist'))
 
-const Note = require('./models/note')
-
 /* ----- notes --------- */
-
+let notes = [
+    {
+        id: 1,
+        content: "HTML is easy",
+        date: "2022-05-30T17:30:31.098Z",
+        important: true
+    },
+    {
+        id: 2,
+        content: "Browser can execute only Javascript",
+        date: "2022-05-30T18:39:34.091Z",
+        important: false
+    },
+    {
+        id: 3,
+        content: "GET and POST are the most important methods of HTTP protocol",
+        date: "2022-05-30T19:20:14.298Z",
+        important: true
+    }
+]
 
 app.get('/api/notes', (request, response) => {
-    Note.find({}).then(notes => {
-        console.log('RAW MONGOOSE DOC _id:', notes[0]._id)
-        console.log('RAW MONGOOSE DOC __v:', notes[0].__v)
-        console.log('BEFORE toJSON():', notes[0])
-        console.log('AFTER toJSON():', notes[0].toJSON())
-        response.json(notes)
-    })
+    response.json(notes)
 })
 
 app.get('/api/notes/:id', (request, response) => {
