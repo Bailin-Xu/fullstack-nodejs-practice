@@ -20,37 +20,61 @@ const Note = require('./models/note')
 
 app.get('/api/notes', (request, response) => {
     Note.find({}).then(notes => {
-        console.log('RAW MONGOOSE DOC _id:', notes[0]._id)
-        console.log('RAW MONGOOSE DOC __v:', notes[0].__v)
-        console.log('BEFORE toJSON():', notes[0])
-        console.log('AFTER toJSON():', notes[0].toJSON())
+        /*         console.log('RAW MONGOOSE DOC _id:', notes[0]._id)
+                console.log('RAW MONGOOSE DOC __v:', notes[0].__v)
+                console.log('BEFORE toJSON():', notes[0])
+                console.log('AFTER toJSON():', notes[0].toJSON()) */
         response.json(notes)
     })
 })
 
 app.get('/api/notes/:id', (request, response) => {
-    const id = Number(request.params.id)
-    console.log(id)
-    const note = notes.find(note => note.id === id)
-    console.log(note)
-    if (note) {
-        response.json(note)
-    } else {
-        response.status(404).end()
-    }
+    Note.findById(request.params.id)
+        .then(note => {
+            if (note) {
+                response.json(note)
+            } else {
+                response.status(404).end()
+            }
+        })
+        .catch(error => {
+            response.status(400).json({ error: 'malformatted id' })
+        })
 })
 
+
+
 app.delete('/api/notes/:id', (request, response) => {
-    const id = Number(request.params.id)
-    notes = notes.filter(note => note.id !== id)
-    response.status(204).end()
+    Note.findByIdAndRemove(request.params.id)
+        .then(result => {
+            if (result) {
+                response.status(204).end()
+            } else {
+                response.status(404).end()
+            }
+        })
+        .catch(error => {
+            response.status(400).json({ error: 'malformatted id' })
+        })
 })
 
 app.post('/api/notes', (request, response) => {
-    const note = request.body
-    console.log(note)
-    response.json(note)
+    const body = request.body
+
+    if (!body.content) {
+        return response.status(400).json({ error: 'content missing' })
+    }
+
+    const note = new Note({
+        content: body.content,
+        important: body.important || false,
+    })
+
+    note.save().then(savedNote => {
+        response.json(savedNote)
+    })
 })
+
 
 /* ----- persons --------- */
 
